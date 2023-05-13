@@ -166,7 +166,7 @@ namespace LanguageSchool
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var currentAgentEmail = dbmodel.Agent.ToList();
-            currentAgentEmail = currentAgentEmail.Where(p => p.EmailAgent.ToLower().Contains(SearchTextBox.Text.ToLower())).ToList();
+            currentAgentEmail = currentAgentEmail.Where(p => p.EmailAgent.ToLower().Contains(SearchTextBox.Text.ToLower()) || p.PhoneAgent.ToLower().Contains(SearchTextBox.Text.ToLower())).ToList();
             DataGridAgent.ItemsSource = currentAgentEmail.OrderBy(p => p.EmailAgent).ToList();
             LoadComponent(true);
         }
@@ -247,41 +247,77 @@ namespace LanguageSchool
             }
         }
 
+        /// <summary>
+        /// Логика удаления агента
+        /// </summary>
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var productForDeleting = DataGridAgent.SelectedItems.Cast<Product>();
+            var productForDeleting = DataGridAgent.SelectedItems.Cast<Agent>().ToList();
 
-            if (MessageBox.Show("Вы точно хотите удалить следующие", "Внимание!",
+            if (MessageBox.Show($"Вы точно хотите удалить {productForDeleting.Count()} следующие", "Внимание!",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                //try
-                //{
-                    
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show(ex.Message.ToString());
-                //}
-                using (var c = new LanguageDBEntities())
+                try
                 {
-                    //c.Agent.Remove(productForDeleting);
-                    c.Entry(productForDeleting).State = System.Data.Entity.EntityState.Deleted;
-                    c.SaveChanges();
+                    dbmodel.Agent.RemoveRange(productForDeleting);
+                    dbmodel.SaveChanges();
                     MessageBox.Show("Данные удалены!", "Окно оповещений");
-                    DataGridAgent.ItemsSource = c.Agent.ToList();
+                    DataGridAgent.ItemsSource = dbmodel.Agent.ToList();
                 }
-                //c.Entry(productForDeleting).State = System.Data.Entity.EntityState.Deleted;
-                //dbmodel.Agent.Remove(productForDeleting);
-                //dbmodel.SaveChanges();
-                //MessageBox.Show("Данные удалены!", "Окно оповещений");              
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }                    
             }
         }
 
+        /// <summary>
+        /// Логика добавление агента
+        /// </summary>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            StringBuilder errors = new StringBuilder();
+            Agent _currentProductGet = new Agent();
 
+            if (_currentAgent.TypeAgent == null)
+                errors.AppendLine("Введите тип агента" + "\n");
+            if (_currentAgent.NameAgent == null)
+                errors.Append("Введите имя" + "\n");
+            if (_currentAgent.EmailAgent == null)
+                errors.Append("Введите почту" + "\n");
+            if (_currentAgent.PhoneAgent == null)
+                errors.AppendLine("Введите телефон" + "\n");
+            if (_currentAgent.Address == null)
+                errors.Append("Введите адрес" + "\n");
+            if (_currentAgent.Priotity == 0)
+                errors.Append("Введите приоритет" + "\n");
+            if (_currentAgent.Director == null)
+                errors.Append("Выберите диреткора" + "\n");
+            if (_currentAgent.INN == null)
+                errors.Append("Выберите ИНН" + "\n");
+            if (_currentAgent.KPP == null)
+                errors.Append("Выберите КПП" + "\n");
+            if (errors.Length > 0)
+            {
+                MessageBox.Show(errors.ToString());
+                return;
+            }            
+
+            if (_currentAgent.TypeAgent != null && _currentAgent.NameAgent != null && _currentAgent.EmailAgent != null && _currentAgent.PhoneAgent != null
+                && _currentAgent.Address != null && _currentAgent.Priotity != null
+                && _currentAgent.Director != null && _currentAgent.INN != null && _currentAgent.KPP != null)
+            {
+                dbmodel.Agent.Add(_currentAgent);
+            }
+
+            dbmodel.SaveChanges();
+            MessageBox.Show("Информация успешно добавлена!", "Окно оповещений");
+            DataGridAgent.ItemsSource = dbmodel.Agent.ToList();
         }
 
+        /// <summary>
+        /// Логика выбора картинки из компьютера
+        /// </summary>
         private void Img_Click_1(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog()
@@ -318,7 +354,10 @@ namespace LanguageSchool
             Close();
         }
 
-        private void DataGridProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /// <summary>
+        /// Обработка на нажатия элемента из списка
+        /// </summary>
+        private void DataGridAgent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Agent item = DataGridAgent.SelectedItem as Agent;
             if (item != null)

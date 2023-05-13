@@ -25,7 +25,7 @@
             <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged"></TextBox>
         </WrapPanel>
         <WrapPanel Grid.Row="1" Grid.ColumnSpan="2">
-            <DataGrid x:Name="DataGridAgent" Grid.Row="4" Grid.ColumnSpan="4" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="DataGridProduct_SelectionChanged">
+            <DataGrid x:Name="DataGridAgent" Grid.Row="4" Grid.ColumnSpan="4" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="DataGridAgent_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Width="*" Binding="{Binding Id}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Тип агента" Width="*" Binding="{Binding TypeAgent}"></DataGridTextColumn>
