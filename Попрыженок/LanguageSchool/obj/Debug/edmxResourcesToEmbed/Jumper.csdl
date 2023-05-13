@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LanguageDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Agents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeAgent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NameAgent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="EmailAgent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneAgent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhotoPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Priotity" Type="Int32" />
+    <Property Name="Director" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="INN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="KPP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="ProductSale" Relationship="Self.FK_ProductSale_Agents" FromRole="Agents" ToRole="ProductSale" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameProduct" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TypeProduct" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ProductArticleNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CountPeopleForMade" Type="Int32" />
+    <Property Name="WorkShopNumber" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="ProductSale">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameProduct" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="NameAgent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImplementationDate" Type="DateTime" Precision="3" />
+    <Property Name="ProductionQuantity" Type="Int32" />
+    <Property Name="IdAgent" Type="Int32" />
+    <Property Name="IdProduct" Type="Int32" />
+    <NavigationProperty Name="Agents" Relationship="Self.FK_ProductSale_Agents" FromRole="ProductSale" ToRole="Agents" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserLogin" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ProductSale_Agents">
+    <End Role="Agents" Type="Self.Agents" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agents">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductSale">
+        <PropertyRef Name="IdAgent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LanguageDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Agents" EntityType="Self.Agents" />
+    <EntitySet Name="Product" EntityType="Self.Product" />
+    <EntitySet Name="ProductSale" EntityType="Self.ProductSale" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK_ProductSale_Agents" Association="Self.FK_ProductSale_Agents">
+      <End Role="Agents" EntitySet="Agents" />
+      <End Role="ProductSale" EntitySet="ProductSale" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

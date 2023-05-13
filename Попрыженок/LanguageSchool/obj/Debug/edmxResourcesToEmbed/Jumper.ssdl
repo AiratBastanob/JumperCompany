@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище LanguageDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Agents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeAgent" Type="nvarchar" MaxLength="50" />
+    <Property Name="NameAgent" Type="nvarchar(max)" />
+    <Property Name="EmailAgent" Type="nvarchar(max)" />
+    <Property Name="PhoneAgent" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhotoPath" Type="nvarchar(max)" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="Priotity" Type="int" />
+    <Property Name="Director" Type="nvarchar(max)" />
+    <Property Name="INN" Type="nvarchar" MaxLength="50" />
+    <Property Name="KPP" Type="nvarchar" MaxLength="50" />
+    <Property Name="Photo" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NameProduct" Type="nvarchar(max)" />
+    <Property Name="TypeProduct" Type="nvarchar(max)" />
+    <Property Name="ProductArticleNumber" Type="nvarchar" MaxLength="100" />
+    <Property Name="CountPeopleForMade" Type="int" />
+    <Property Name="WorkShopNumber" Type="int" />
+    <Property Name="Price" Type="decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="ProductSale">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NameProduct" Type="nvarchar(max)" />
+    <Property Name="NameAgent" Type="nvarchar(max)" />
+    <Property Name="ImplementationDate" Type="datetime" />
+    <Property Name="ProductionQuantity" Type="int" />
+    <Property Name="IdAgent" Type="int" />
+    <Property Name="IdProduct" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserLogin" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserPassword" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ProductSale_Agents">
+    <End Role="Agents" Type="Self.Agents" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agents">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductSale">
+        <PropertyRef Name="IdAgent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище LanguageDBModelContainer">
+    <EntitySet Name="Agents" EntityType="Self.Agents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductSale" EntityType="Self.ProductSale" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ProductSale_Agents" Association="Self.FK_ProductSale_Agents">
+      <End Role="Agents" EntitySet="Agents" />
+      <End Role="ProductSale" EntitySet="ProductSale" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
