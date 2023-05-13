@@ -13,9 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.IO;
+using System.Globalization;
+using System.Windows.Controls.Primitives;
 
 namespace LanguageSchool
-{
+{ 
+
     /// <summary>
     /// Логика взаимодействия для LookAgentsForStaff.xaml
     /// </summary>
@@ -36,6 +39,36 @@ namespace LanguageSchool
             LoadComponent(false);
             LoadComboBox1();
             LoadComboBox2();
+        }
+
+        /// <summary>
+        /// Логика закрашивание агента
+        /// </summary>
+        private void DataGridAgent_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            // получаем текущего агента из строки
+            Agent agent = e.Row.Item as Agent;
+
+            // находим сумму количества реализуемого товара по данному агенту
+            int totalProductionQuantity = dbmodel.ProductSale.Where(ps => ps.IdAgent == agent.Id).Sum(ps => ps.ProductionQuantity) ?? 0;
+
+            // устанавливаем цвет имени агента в зависимости от суммы
+            if (totalProductionQuantity <= 10000)
+            {
+            }
+            else if (totalProductionQuantity >= 10000 && totalProductionQuantity <= 50000)
+            {
+            }
+            else if (totalProductionQuantity >= 50000 && totalProductionQuantity <= 150000)
+            {
+            }
+            else if (totalProductionQuantity >= 150000 && totalProductionQuantity <= 500000)
+            {
+            }
+            else if (totalProductionQuantity > 500000)
+            {
+                e.Row.Foreground = Brushes.LightGreen;
+            }
         }
 
         /// <summary>

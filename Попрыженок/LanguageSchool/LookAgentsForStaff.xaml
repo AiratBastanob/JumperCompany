@@ -2,10 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LanguageSchool"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"   
         mc:Ignorable="d"
-     Title="Агенты" Height="600" Width="1000" Icon="Resources/Попрыженок.png">
+         xmlns:local="clr-namespace:LanguageSchool"
+     Title="Агенты" Height="600" Width="1000" Icon="Resources/Попрыженок.png"> 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -25,11 +25,12 @@
             <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged"></TextBox>
         </WrapPanel>
         <WrapPanel Grid.Row="1" Grid.ColumnSpan="2">
-            <DataGrid x:Name="DataGridAgent" Grid.Row="4" Grid.ColumnSpan="4" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="DataGridAgent_SelectionChanged">
+            <DataGrid x:Name="DataGridAgent" LoadingRow="DataGridAgent_LoadingRow" Grid.Row="4" Grid.ColumnSpan="4" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="DataGridAgent_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Width="*" Binding="{Binding Id}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Тип агента" Width="*" Binding="{Binding TypeAgent}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Наименование агента" Width="*" Binding="{Binding NameAgent}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Наименование агента" Width="*" Binding="{Binding NameAgent}">                        
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Телефон агента" Width="*" Binding="{Binding PhoneAgent}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Приоритет" Width="*" Binding="{Binding Priotity}"></DataGridTextColumn>                                   
                     <DataGridTemplateColumn Header="Фото" Width="*">

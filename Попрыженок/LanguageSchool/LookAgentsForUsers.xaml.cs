@@ -67,7 +67,7 @@ namespace LanguageSchool
 
         }
 
-        private void DataGridProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DataGridAgent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
