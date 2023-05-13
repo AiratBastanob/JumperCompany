@@ -1,0 +1,114 @@
+﻿<Window x:Class="LanguageSchool.LookAgentsForStaff"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LanguageSchool"
+        mc:Ignorable="d"
+     Title="Агенты" Height="600" Width="1000" Icon="Resources/Попрыженок.png">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="250"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Background="#B5D5CA" Grid.ColumnSpan="2">
+            <Button x:Name="ExitButton" Content="Вернуться назад" Click="ExitButton_Click"></Button>
+            <ComboBox Name="DiscountComboBox" Width="160" SelectionChanged="ComboBox_SelectionChanged1"/>
+            <ComboBox Name="PriceComboBox" Width="160" SelectionChanged="ComboBox_SelectionChanged2"/>
+            <Label Content="Введите название агента:"/>
+            <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged"></TextBox>
+        </WrapPanel>
+        <WrapPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <DataGrid x:Name="DataGridProduct" Grid.Row="4" Grid.ColumnSpan="4" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="DataGridProduct_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Width="*" Binding="{Binding ProductID}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Тип агента" Width="*" Binding="{Binding ProductName}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Наименование агента" Width="*" Binding="{Binding ProductArticleNumber}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Продаж за год" Width="*" Binding="{Binding ProductCost}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Телефон агента" Width="*" Binding="{Binding ProductMaxDiscountAmount}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Приоритет" Width="*" Binding="{Binding ProductDiscountAmount}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Логотип агента" Width="*" Binding="{Binding ProductQuantityInStock }"></DataGridTextColumn>                   
+                    <DataGridTemplateColumn Header="Фото" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Path=ProductPhoto}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </WrapPanel>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="75"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <Label Content="Тип агента:"/>
+                <TextBox x:Name="NameArticleTextBox" Text="{Binding ProductArticleNumber}"  MaxLength="100"/>
+            </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="1">
+                <Label Content="Наименование агента"/>
+                <TextBox x:Name="NameProductTextBox" Text="{Binding ProductName}"  MaxLength="100"/>
+            </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="2">
+                <Label Content="Электронная почта агента"/>
+                <TextBox x:Name="PriceProductTextBox" Text="{Binding ProductCost}"  MaxLength="100"/>
+            </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="3">
+                <Label Content="Телефон агента"/>
+                <TextBox x:Name="MaxDiscountTextBox" Text="{Binding ProductMaxDiscountAmount}"  MaxLength="100"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="0">
+                <Label Content="Юридический адрес"/>
+                <TextBox x:Name="CountDiscountTextBox" Text="{Binding ProductDiscountAmount}"  MaxLength="100"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <Label Content="Приоритет"/>
+                <TextBox x:Name="CountProductTextBox" Text="{Binding ProductQuantityInStock}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="2">
+                <Label Content="Директор ИННКПП"/>
+                <ComboBox x:Name="ManufacturerComboBox" DisplayMemberPath="ProductManufacturerName"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="3">
+                <Label Content="Поставщик"/>
+                <ComboBox x:Name="SupplierComboBox" DisplayMemberPath="ProductSupplierName"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="0">
+                <Label Content="Категория"/>
+                <ComboBox x:Name="CategoryComboBox" DisplayMemberPath="ProductCategoryName"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="1">
+                <Label Content="Описание"/>
+                <TextBox x:Name="ProductDescriptionTextBox" Text="{Binding ProductDescription}"  MaxLength="100"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="2">
+                <Button Content="Фото*" Click="Img_Click_1"/>
+                <Image x:Name="AgentPhotoImage" Source="{Binding Photo}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxHeight="35" MaxWidth="35"/>
+            </StackPanel>            
+        </Grid>
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" Background="#E0A9AF"></WrapPanel>
+        <StackPanel Grid.Row="3" Grid.Column="1">
+            <StackPanel Grid.Row="3" Grid.Column="1">
+                <Button x:Name="UpdateButton" Content="Редактировать" Width="120" Click="UpdateButton_Click" IsEnabled="False"/>
+                <Button x:Name="DeleteButton" Content="Удалить" Click="DeleteButton_Click" Width="120"/>
+                <Button x:Name="AddButton" Content="Добавить" Click="AddButton_Click" Width="120"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
+

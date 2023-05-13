@@ -1,0 +1,7 @@
+C:\Users\Airat\Desktop\LanguageCompany\LanguageSchool\LanguageSchool\obj\Debug\LanguageSchool.csproj.AssemblyReference.cache
+C:\Users\Airat\Desktop\LanguageCompany\LanguageSchool\LanguageSchool\obj\Debug\MainWindow.g.cs
+C:\Users\Airat\Desktop\LanguageCompany\LanguageSchool\LanguageSchool\obj\Debug\App.g.cs
+C:\Users\Airat\Desktop\LanguageCompany\LanguageSchool\LanguageSchool\obj\Debug\LanguageSchool_MarkupCompile.cache
+C:\Users\Airat\Desktop\LanguageCompany\LanguageSchool\LanguageSchool\obj\Debug\LanguageSchool_MarkupCompile.lref
+C:\Users\Airat\Desktop\LanguageCompany\LanguageSchool\LanguageSchool\obj\Debug\LookAgentsForStaff.g.cs
+C:\Users\Airat\Desktop\LanguageCompany\LanguageSchool\LanguageSchool\obj\Debug\LookAgentsForUsers.g.cs
