@@ -15,11 +15,19 @@ namespace LanguageSchool
     
     public partial class LanguageDBEntities : DbContext
     {
+        private static LanguageDBEntities _context;
         public LanguageDBEntities()
             : base("name=LanguageDBEntities")
         {
         }
-    
+
+        public static LanguageDBEntities GetContext()
+        {
+            if (_context == null)
+                _context = new LanguageDBEntities();
+            return _context;
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

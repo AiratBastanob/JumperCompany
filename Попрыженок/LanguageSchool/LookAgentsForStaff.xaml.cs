@@ -282,35 +282,56 @@ namespace LanguageSchool
 
         /// <summary>
         /// Логика удаления агента
-        /// </summary>
+        /// </summary>        
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var productForDeleting = DataGridAgent.SelectedItems.Cast<Agent>().ToList();
+            using(LanguageDBEntities language = new LanguageDBEntities()) { 
+            var agentsForDeleting = DataGridAgent.SelectedItems.Cast<Agent>().ToList();
 
-            if (MessageBox.Show($"Вы точно хотите удалить {productForDeleting.Count()} следующие", "Внимание!",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                try
+                if (MessageBox.Show($"Вы точно хотите удалить {agentsForDeleting.Count()} следующие", "Внимание!",
+                        MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    dbmodel.Agent.RemoveRange(productForDeleting);
-                    dbmodel.SaveChanges();
-                    MessageBox.Show("Данные удалены!", "Окно оповещений");
-                    DataGridAgent.ItemsSource = dbmodel.Agent.ToList();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message.ToString());
-                }                    
+                    foreach (var agent in agentsForDeleting)
+                    {
+                        var productSales = dbmodel.ProductSale.Where(ps => ps.Agent.Id == agent.Id).ToList();
+
+                        if (productSales.Count > 0)
+                        {
+                            MessageBox.Show($"Агент {agent.NameAgent} не может быть удален, так как он реализует товар.", "Ошибка удаления");
+                        }
+                        else
+                        {
+                            var existingAgent = dbmodel.Agent.Find(agent.Id);
+
+                            if (existingAgent != null)
+                            {
+                                try
+                                {
+                                    language.Agent.Attach(agent);
+                                    language.Agent.Remove(agent);
+                                    language.SaveChanges();
+                                    MessageBox.Show("Данные удалены!", "Окно оповещений");
+                                    DataGridAgent.ItemsSource = language.Agent.ToList();
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message.ToString());
+                                }                              
+                            }
+                        }
+                    }
+                }               
             }
         }
+
+
 
         /// <summary>
         /// Логика добавление агента
         /// </summary>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            StringBuilder errors = new StringBuilder();
-            Agent _currentProductGet = new Agent();
+            StringBuilder errors = new StringBuilder();          
 
             if (_currentAgent.TypeAgent == null)
                 errors.AppendLine("Введите тип агента" + "\n");
